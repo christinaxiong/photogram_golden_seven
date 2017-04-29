@@ -24,12 +24,13 @@ class PhotosController < ApplicationController
     new_photo.caption = cap
     new_photo.save
     #render("photos/create_row.html.erb") #render goes directly to view page
-    redirect_to("/photos/#{new_photo.id}")
+    #redirect_to("/photos/#{new_photo.id}")
+    redirect_to("/photos")
   end
 
   def edit_form
     the_id=params[:da_id]
-    @my_photo = Photo.find(the_id) 
+    @my_photo = Photo.find(the_id)
 
     render("photos/edit_form.html.erb")
   end
@@ -39,6 +40,11 @@ class PhotosController < ApplicationController
   end
 
   def destroy_row
-    render("photos/destroy_row.html.erb")
+    the_id=params[:id]
+    old_photo = Photo.find(the_id)
+    old_photo.destroy
+    old_photo.save
+    #render("photos/destroy_row.html.erb")
+    redirect_to("/photos")
   end
 end
