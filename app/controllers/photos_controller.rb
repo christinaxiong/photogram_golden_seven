@@ -8,7 +8,6 @@ class PhotosController < ApplicationController
   def show
     the_id=params[:da_id]
     @my_photo = Photo.find(the_id)  #represents the row of the photo you want to display; @my_photo is an object; currently using a method action on a row object.
-    url= @my_photo.source
     render("photos/show.html.erb")
   end
 
@@ -19,10 +18,10 @@ class PhotosController < ApplicationController
   def create_row
     url = params[:da_source]
     cap = params[:da_caption]
-    new_photo = Photo.new
-    new_photo.source= url
-    new_photo.caption = cap
-    new_photo.save
+    @new_photo = Photo.new
+    @new_photo.source= url
+    @new_photo.caption = cap
+    @new_photo.save
     #render("photos/create_row.html.erb") #render goes directly to view page
     #redirect_to("/photos/#{new_photo.id}")
     redirect_to("/photos")
@@ -30,13 +29,19 @@ class PhotosController < ApplicationController
 
   def edit_form
     the_id=params[:id]
-    new_photo = Photo.find(the_id)
-
+    @existing_photo = Photo.find(the_id)
     render("photos/edit_form.html.erb")
   end
 
   def update_row
-    render("photos/update_row.html.erb")
+    the_id=params[:id]
+    @existing_photo = Photo.find(the_id)
+    @existing_photo.caption = params[:da_caption]
+    @existing_photo.source = params[:da_source]
+    @existing_photo.save
+
+    #render("photos/update_row.html.erb")
+    redirect_to("/photos/#{the_id}")
   end
 
   def destroy_row
