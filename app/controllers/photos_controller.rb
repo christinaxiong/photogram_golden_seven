@@ -29,8 +29,8 @@ class PhotosController < ApplicationController
   end
 
   def edit_form
-    the_id=params[:da_id]
-    @my_photo = Photo.find(the_id)
+    the_id=params[:id]
+    new_photo = Photo.find(the_id)
 
     render("photos/edit_form.html.erb")
   end
